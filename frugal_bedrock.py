@@ -31,7 +31,7 @@ from typing import (
 
 # HuggingFace 🤗
 from datasets import load_dataset
-from transformers import pipeline
+from transformers import pipeline, AutoTokenizer
 
 # LangChain Core 🦜🔗
 from langchain_core.prompts import ChatPromptTemplate
@@ -57,7 +57,9 @@ from langgraph.graph import StateGraph, END
 # https://vectara.com/blog/automating-hallucination-detection-introducing-vectara-factual-consistency-score/
 hallucination_detector = pipeline(
     task="text-classification",
-    model="vectara/hallucination_evaluation_model"
+    model="vectara/hallucination_evaluation_model",
+    tokenizer=AutoTokenizer.from_pretrained("google/flan-t5-base"),
+    trust_remote_code=True
 )
 
 def scorer(inpt: dict) -> float:
